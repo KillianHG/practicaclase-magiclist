@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -44,6 +45,14 @@ public class MainActivityFragment extends Fragment {
 
         adapter = new CartasAdapter(getContext(), R.layout.lv_cartas_row, items);
         lvCartas.setAdapter(adapter);
+
+        lvCartas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        });
+
 
         return view;
     }
