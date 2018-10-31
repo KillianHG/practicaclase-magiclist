@@ -29,7 +29,6 @@ public class CartasAdapter extends ArrayAdapter<Cartas> {
         Log.w("XXXX", carta.toString());
 
         // Mirem a veure si la View s'està reusant, si no es així "inflem" la View
-        // https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView#row-view-recycling
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.lv_cartas_row, parent, false);
