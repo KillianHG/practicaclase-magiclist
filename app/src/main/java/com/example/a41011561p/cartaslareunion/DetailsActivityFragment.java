@@ -8,11 +8,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class DetailsActivityFragment extends Fragment {
+
+    private View view;
+    private ImageView ivPosterImage;
+    private TextView tvName;
+    private TextView tvColor;
+    private TextView tvRarity;
+    private TextView tvMultiverseid;
+
 
     public DetailsActivityFragment() {
     }
@@ -20,7 +32,7 @@ public class DetailsActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_details, container, false);
+        view = inflater.inflate(R.layout.fragment_details, container, false);
 
         Intent i = getActivity().getIntent();
 
@@ -37,6 +49,20 @@ public class DetailsActivityFragment extends Fragment {
 
     private void updateUi(Cartas carta) {
         Log.d("CARTA", carta.toString());
+
+        ivPosterImage = view.findViewById(R.id.ivPosterImage);
+        tvName = view.findViewById(R.id.tvName);
+        tvRarity = view.findViewById(R.id.tvRarity);
+        tvColor = view.findViewById(R.id.tvColor);
+        tvMultiverseid = view.findViewById(R.id.tvMultiverseid);
+
+        tvName.setText(carta.getName());
+        tvRarity.setText(carta.getRarity());
+        tvColor.setText(carta.getColors().replace("[", "").replace("]","").replace("\"",""));
+        tvMultiverseid.setText(Integer.toString(carta.getMultiverseid()));
+        Glide.with(getContext())
+                .load(carta.getImageUrl()
+        ).into(ivPosterImage);
 
     }
 }
