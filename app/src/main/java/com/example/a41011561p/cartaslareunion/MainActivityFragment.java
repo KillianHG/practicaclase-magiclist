@@ -3,6 +3,7 @@ package com.example.a41011561p.cartaslareunion;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Movie;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -49,7 +50,7 @@ public class MainActivityFragment extends Fragment {
         lvCartas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Movie movie = (Movie) adapterView.getItemAtPosition(i);
             }
         });
 
