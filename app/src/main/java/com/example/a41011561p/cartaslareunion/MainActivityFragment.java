@@ -2,6 +2,7 @@ package com.example.a41011561p.cartaslareunion;
 
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Movie;
 import android.os.AsyncTask;
@@ -50,7 +51,11 @@ public class MainActivityFragment extends Fragment {
         lvCartas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Movie movie = (Movie) adapterView.getItemAtPosition(i);
+                Cartas carta = (Cartas) adapterView.getItemAtPosition(i);
+                Intent intent = new Intent(getContext(), DetailsActivity.class);
+                intent.putExtra("carta", carta);
+
+                startActivity(intent);
             }
         });
 
