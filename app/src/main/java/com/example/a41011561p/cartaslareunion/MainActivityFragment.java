@@ -4,7 +4,6 @@ package com.example.a41011561p.cartaslareunion;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Movie;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -20,17 +19,25 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends LifecycleFragment {
 
     private ArrayList<Cartas> items;
     private CartasAdapter adapter;
+    private SharedPreferences preferences;
+    private CartasViewModel model;
+
 
     public MainActivityFragment() {
     }
@@ -59,6 +66,16 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        model = ViewModelProviders.of(this).get(CartasViewModel.class);
+        model.getCartas().observe(this, new Observer<List<Cartas>>() {
+            @Override
+            public void onChanged(@Nullable List<Cartas> cartas) {
+                adapter.clear();
+                adapter.addAll(cartas);
+            }
+        });
+
+
 
         return view;
     }
@@ -73,8 +90,7 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        refresh();
-    }
+        }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //super.onCreateOptionsMenu(menu, inflater);
@@ -98,45 +114,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     private void refresh() {
-        RefreshDataTask task = new RefreshDataTask();
-        task.execute();
+        model.reload();
     }
-
-    private class RefreshDataTask extends AsyncTask<Void, Void, ArrayList<Cartas>> {
-        @Override
-        protected ArrayList<Cartas> doInBackground(Void... voids) {
-            CartasLaReunionAPI api = new CartasLaReunionAPI();
-
-            SharedPreferences preferences = PreferenceManager
-                    .getDefaultSharedPreferences(getContext());
-            String color = preferences.getString("color", "");
-            String rarity = preferences.getString("rarity", "");
-
-            ArrayList<Cartas> result = null;
-
-            if(!rarity.equals("")){
-                result = api.getCartasLaReunionByRarity(rarity);
-            } else if (!color.equals("")){
-                result = api.getCartasLaReunionByColor(color);
-            } else {
-                result = api.getCartasLaReunion();
-            }
-
-
-
-            Log.d("DEBUG", result != null ? result.toString() : null);
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Cartas> cartas) {
-            adapter.clear();
-            for (Cartas carta : cartas) {
-                adapter.add(carta);
-            }
-
-        }
-    }
-
 }
