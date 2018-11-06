@@ -1,13 +1,18 @@
 package com.example.a41011561p.cartaslareunion;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Cartas implements Serializable {
-    String name;
-    String colors;
-    String rarity;
-    String imageUrl;
-    int multiverseid;
+    private String name;
+    private String colors;
+    private String rarity;
+    private String imageUrl;
+    @PrimaryKey(autoGenerate = true)
+    private int multiverseid;
 
     public String getName() {
         return name;
