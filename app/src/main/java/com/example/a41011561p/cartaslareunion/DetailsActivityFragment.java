@@ -60,7 +60,7 @@ public class DetailsActivityFragment extends Fragment {
         tvName.setText(carta.getName());
         tvRarity.setText(carta.getRarity());
         tvColor.setText(carta.getColors().replace("[", "").replace("]","").replace("\"",""));
-        tvMultiverseid.setText(Integer.toString(carta.getMultiverseid()));
+        tvMultiverseid.setText(Integer.toString(carta.getId()));
         Glide.with(getContext())
                 .load(carta.getImageUrl()
         ).into(ivPosterImage);

@@ -15,6 +15,10 @@ public interface CartasDao {
     @Insert
     void addCarta(Cartas carta);
 
+    @Insert
+    void addCartas(List<Cartas> carta);
+
+
     @Delete
     void deleteCarta(Cartas carta);
 

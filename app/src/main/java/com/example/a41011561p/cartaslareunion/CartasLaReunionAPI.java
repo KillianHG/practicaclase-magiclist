@@ -12,21 +12,26 @@ import java.util.ArrayList;
 
 public class CartasLaReunionAPI {
     private final String BASE_URL = "https://api.magicthegathering.io/v1";
+    private final int PAGES = 10;
+
 
     //or |
     //and ,
-
     ArrayList<Cartas> getCartasLaReunion() {
+        return doCall();
+    }
+
+    private String getUrlPage(int pagina) {
         Uri builtUri = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("cards")
+                .appendQueryParameter("page", String.valueOf(pagina))
                 .build();
-        String url = builtUri.toString();
-
-        return doCall(url);
+        return builtUri.toString();
     }
 
-    ArrayList<Cartas> getCartasLaReunionByRarity(String rarity) {
+
+    /*ArrayList<Cartas> getCartasLaReunionByRarity(String rarity) {
         Uri builtUri = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("cards")
@@ -34,9 +39,9 @@ public class CartasLaReunionAPI {
                 .build();
         String url = builtUri.toString();
         return doCall(url);
-    }
+    }*/
 
-    ArrayList<Cartas> getCartasLaReunionByColor(String color) {
+    /*ArrayList<Cartas> getCartasLaReunionByColor(String color) {
         Uri builtUri = Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendPath("cards")
@@ -44,17 +49,24 @@ public class CartasLaReunionAPI {
                 .build();
         String url = builtUri.toString();
         return doCall(url);
+    }*/
+
+    private ArrayList<Cartas> doCall() {
+        ArrayList<Cartas> cartas = new ArrayList<>();
+
+        for (int i = 0; i < PAGES; i++) {
+            try {
+                String url = getUrlPage(i);
+                String JsonResponse = HttpUtils.get(url);
+                ArrayList<Cartas> list = processJson(JsonResponse);
+                cartas.addAll(list);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return cartas;
     }
 
-    private ArrayList<Cartas> doCall(String url){
-        try {
-            String JsonResponse = HttpUtils.get(url);
-            return processJson(JsonResponse);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private ArrayList<Cartas> processJson (String jsonResponse){
 
@@ -70,7 +82,7 @@ public class CartasLaReunionAPI {
                 carta.setColors(jsonCard.getString("colors"));
                 carta.setRarity(jsonCard.getString("rarity"));
                 carta.setImageUrl(jsonCard.getString("imageUrl"));
-                carta.setMultiverseid(jsonCard.getInt("multiverseid"));
+                carta.setId(jsonCard.getInt("multiverseid"));
                 cartas.add(carta);
             }
         } catch (JSONException e) {

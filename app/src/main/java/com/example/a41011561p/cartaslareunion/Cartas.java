@@ -12,7 +12,7 @@ public class Cartas implements Serializable {
     private String rarity;
     private String imageUrl;
     @PrimaryKey(autoGenerate = true)
-    private int multiverseid;
+    private int id;
 
     public String getName() {
         return name;
@@ -30,8 +30,8 @@ public class Cartas implements Serializable {
         return imageUrl;
     }
 
-    public int getMultiverseid() {
-        return multiverseid;
+    public int getId() {
+        return id;
     }
 
     public void setName(String name) {
@@ -50,8 +50,8 @@ public class Cartas implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public void setMultiverseid(int multiverseid) {
-        this.multiverseid = multiverseid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Cartas implements Serializable {
                 ", colors='" + colors + '\'' +
                 ", rarity='" + rarity + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", multiverseid=" + multiverseid +
+                ", multiverseid=" + id +
                 '}';
     }
 }

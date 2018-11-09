@@ -15,22 +15,26 @@ import java.util.List;
 
 public class CartasViewModel extends AndroidViewModel {
     private final Application app;
-    private MutableLiveData<List<Cartas>> cartas;
+    private final AppDatabase appDatabase;
+    private final CartasDao cartasDao;
+
+    private static final int PAGES = 10;
+
 
     public CartasViewModel(Application application) {
         super(application);
 
         this.app = application;
+        this.appDatabase = AppDatabase.getDatabase(this.getApplication());
+        this.cartasDao = appDatabase.getCartaDao();
+
+
     }
 
     public LiveData<List<Cartas>> getCartas() {
         Log.d("DEBUG", "ENTRA");
 
-        if (cartas == null) {
-            cartas = new MutableLiveData<>();
-            reload();
-        }
-        return cartas;
+        return cartasDao.getCartas();
     }
 
     public void reload() {
@@ -51,26 +55,24 @@ public class CartasViewModel extends AndroidViewModel {
 
             ArrayList<Cartas> result = null;
 
-            if(!rarity.equals("")){
+            /*if(!rarity.equals("")){
                 result = api.getCartasLaReunionByRarity(rarity);
             } else if (!color.equals("")){
                 result = api.getCartasLaReunionByColor(color);
-            } else {
+            } else {*/
                 result = api.getCartasLaReunion();
-            }
+            //}
 
 
 
             Log.d("DEBUG", result != null ? result.toString() : null);
 
+            cartasDao.deleteCarta();
+            cartasDao.addCartas(result);
+
             return result;
         }
 
-        @Override
-        protected void onPostExecute(ArrayList<Cartas> result) {
-                cartas.postValue(result);
-            }
-
-        }
     }
+}
 
