@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class CartasLaReunionAPI {
     private final String BASE_URL = "https://api.magicthegathering.io/v1";
-    private final int PAGES = 10;
+    private final int PAGES = 5;
 
 
     //or |

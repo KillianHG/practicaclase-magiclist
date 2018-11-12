@@ -1,6 +1,10 @@
 package com.example.a41011561p.cartaslareunion;
 
 
+
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,6 +48,16 @@ public class DetailsActivityFragment extends Fragment {
                 updateUi(carta);
             }
         }
+
+        SharedViewModel sharedModel = ViewModelProviders.of(
+                getActivity()
+        ).get(SharedViewModel.class);
+        sharedModel.getSelected().observe(this, new Observer<Cartas>() {
+            @Override
+            public void onChanged(@Nullable Cartas carta) {
+                updateUi(carta);
+            }
+        });
 
         return view;
     }

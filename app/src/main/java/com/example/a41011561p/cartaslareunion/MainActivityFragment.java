@@ -36,6 +36,8 @@ public class MainActivityFragment extends Fragment {
     private CartasAdapter adapter;
     private SharedPreferences preferences;
     private CartasViewModel model;
+    private SharedViewModel sharedModel;
+
 
 
     public MainActivityFragment() {
@@ -54,14 +56,21 @@ public class MainActivityFragment extends Fragment {
         adapter = new CartasAdapter(getContext(), R.layout.lv_cartas_row, items);
         lvCartas.setAdapter(adapter);
 
+        sharedModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
         lvCartas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cartas carta = (Cartas) adapterView.getItemAtPosition(i);
+
+                if(!esTablet()){
                 Intent intent = new Intent(getContext(), DetailsActivity.class);
                 intent.putExtra("carta", carta);
 
                 startActivity(intent);
+                } else {
+                    sharedModel.select(carta);
+                }
             }
         });
 
@@ -77,6 +86,10 @@ public class MainActivityFragment extends Fragment {
 
 
         return view;
+    }
+
+    boolean esTablet() {
+        return getResources().getBoolean(R.bool.tablet);
     }
 
     @Override
