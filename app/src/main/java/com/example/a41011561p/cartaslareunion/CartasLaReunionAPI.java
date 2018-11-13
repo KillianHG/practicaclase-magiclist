@@ -82,7 +82,7 @@ public class CartasLaReunionAPI {
                 carta.setColors(jsonCard.getString("colors"));
                 carta.setRarity(jsonCard.getString("rarity"));
                 carta.setImageUrl(jsonCard.getString("imageUrl"));
-                carta.setId(jsonCard.getInt("multiverseid"));
+                carta.setMultiverseId(jsonCard.getInt("multiverseid"));
                 cartas.add(carta);
             }
         } catch (JSONException e) {

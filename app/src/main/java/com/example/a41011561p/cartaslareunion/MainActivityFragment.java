@@ -66,7 +66,6 @@ public class MainActivityFragment extends Fragment {
                 if(!esTablet()){
                 Intent intent = new Intent(getContext(), DetailsActivity.class);
                 intent.putExtra("carta", carta);
-
                 startActivity(intent);
                 } else {
                     sharedModel.select(carta);
@@ -111,7 +110,7 @@ public class MainActivityFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar item click here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
