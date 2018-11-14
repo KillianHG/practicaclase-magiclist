@@ -79,9 +79,17 @@ public class CartasLaReunionAPI {
 
                 Cartas carta = new Cartas();
                 carta.setName(jsonCard.getString("name"));
-                carta.setColors(jsonCard.getString("colors"));
+                if(!jsonCard.getString("colors").equals(null)){
+                    carta.setColors(jsonCard.getString("colors"));
+                } else {
+                    carta.setColors(null);
+                }
                 carta.setRarity(jsonCard.getString("rarity"));
+                if (!jsonCard.getString("imageUrl").equals(null)) {
                 carta.setImageUrl(jsonCard.getString("imageUrl"));
+                } else {
+                    carta.setImageUrl(null);
+                }
                 carta.setMultiverseId(jsonCard.getInt("multiverseid"));
                 cartas.add(carta);
             }

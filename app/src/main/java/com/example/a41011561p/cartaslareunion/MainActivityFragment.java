@@ -2,6 +2,7 @@ package com.example.a41011561p.cartaslareunion;
 
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -37,6 +38,7 @@ public class MainActivityFragment extends Fragment {
     private SharedPreferences preferences;
     private CartasViewModel model;
     private SharedViewModel sharedModel;
+    private ProgressDialog dialog;
 
 
 
@@ -82,6 +84,18 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Loading...");
+
+        model.getLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean mostrat) {
+                if(mostrat)
+                    dialog.show();
+                else
+                    dialog.dismiss();
+            }
+        });
 
 
         return view;

@@ -17,8 +17,8 @@ public class CartasViewModel extends AndroidViewModel {
     private final Application app;
     private final AppDatabase appDatabase;
     private final CartasDao cartasDao;
-
     private static final int PAGES = 10;
+    private MutableLiveData<Boolean> loading;
 
 
     public CartasViewModel(Application application) {
@@ -43,7 +43,21 @@ public class CartasViewModel extends AndroidViewModel {
         task.execute();
     }
 
+    public MutableLiveData<Boolean> getLoading() {
+        if(loading == null){
+            loading = new MutableLiveData<>();
+        }
+        return loading;
+    }
+
+
     private class RefreshDataTask extends AsyncTask<Void, Void, ArrayList<Cartas>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading.setValue(true);
+        }
+
         @Override
         protected ArrayList<Cartas> doInBackground(Void... voids) {
             CartasLaReunionAPI api = new CartasLaReunionAPI();
@@ -71,6 +85,12 @@ public class CartasViewModel extends AndroidViewModel {
             cartasDao.addCartas(result);
 
             return result;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Cartas> cartas) {
+            super.onPostExecute(cartas);
+            loading.setValue(false);
         }
 
     }
